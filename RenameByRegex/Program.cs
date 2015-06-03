@@ -17,9 +17,10 @@ namespace RenameByRegex
             if (args.Length < 2)
             {
                  Console.WriteLine("Usage: RenameByRegex.exe <Regex filename> <directory> [/t]");
-                 Console.WriteLine("/t (optional): test mode - do not actually rename anything ");
-                 Console.WriteLine("File should contain a line seperated list of regexs, in three line pairs. Blank lines allowed between groups. First line should be a name for the regex, second line should be regex to extract into match groups, third line is how those groups are written out. Match groups referenced with a $ sign. E.g:");
+                 Console.WriteLine("\t (optional): test mode - do not actually rename anything ");
+                 Console.WriteLine("File should contain a line seperated list of regexs, in three line pairs. Blank lines allowed between groups. First line should be a name for the regex, second line should be regex to extract into match groups, third line is how those groups are written out. Match groups referenced with a $ sign. Comment with a #, -- or // E.g:");
                  Console.WriteLine("BLECH");
+                 Console.WriteLine("--This looks for something");
                  Console.WriteLine("(.*'stuff')");
                  Console.WriteLine("BLECH-$stuff");
 
@@ -30,12 +31,20 @@ namespace RenameByRegex
             string filename = args[0];
             string dirname = args[1];
             bool testmode = false;
+            bool pauseAtEnd = false;
             //todo - change if more args
-            if (args.Length > 2 && args[2] == "\\t")
+            for (int i = 2; i < args.Length; i++)
             {
-                testmode = true;
+                if (args[i] == "\\t" || args[i] == "-t" || args[i] == "/t") { testmode = true; }
+                if (args[i] == "\\p" || args[i] == "-p" || args[i] == "/p") { pauseAtEnd = true; }
             }
 
+            if (testmode)
+            {
+                Console.WriteLine("=====");
+                Console.WriteLine("Working in test mode - no files will be renamed");
+                Console.WriteLine("=====");
+            }
             List<regexPair> regexes = new List<regexPair>();
             try
             {
@@ -46,13 +55,12 @@ namespace RenameByRegex
                 string regMatch = "";
                 string regOut = "";
 
-                
 
                 //parse the lines into a set of regex objects
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
-                    if (line != "")
+                    if (line != "" && !line.StartsWith("#") && !line.StartsWith("--") && !line.StartsWith("//"))
                     {
                         if (mode == "N")
                         {
@@ -82,7 +90,11 @@ namespace RenameByRegex
                 sr.Close();
 
             }
-            catch (FileNotFoundException)
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Directory Not Found");
+            }
+            catch (FileNotFoundException )
             {
                 Console.WriteLine("File Not Found");
             }
@@ -140,7 +152,7 @@ namespace RenameByRegex
             }
 
             Console.WriteLine("Finished. Press Return");
-            Console.Read();
+            if (pauseAtEnd) { Console.Read(); }
 
         }
 

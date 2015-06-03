@@ -2,3 +2,4 @@ C:\Code\RenameByRegex\RenameByRegex\bin\Release\RenameByRegex.exe
 C:\Code\RenameByRegex\RenameByRegex\bin\Release\RenameByRegex.pdb
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.exe
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.pdb
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csprojResolveAssemblyReference.cache
