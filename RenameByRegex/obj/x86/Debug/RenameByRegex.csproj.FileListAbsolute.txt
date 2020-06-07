@@ -1,0 +1,6 @@
+C:\Code\RenameByRegex\RenameByRegex\bin\Debug\RenameByRegex.exe
+C:\Code\RenameByRegex\RenameByRegex\bin\Debug\RenameByRegex.pdb
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.csprojAssemblyReference.cache
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.csproj.CoreCompileInputs.cache
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.exe
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.pdb

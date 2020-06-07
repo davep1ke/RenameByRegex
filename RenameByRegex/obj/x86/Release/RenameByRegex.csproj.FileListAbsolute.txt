@@ -1,0 +1,4 @@
+C:\OwnCloud\Code\builds\RenameByRegex\RenameByRegex.exe
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.exe
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csprojAssemblyReference.cache
+C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csproj.CoreCompileInputs.cache

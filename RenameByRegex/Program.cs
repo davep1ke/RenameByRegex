@@ -18,16 +18,16 @@ namespace RenameByRegex
             
             if (args.Length < 2)
             {
-                 Console.WriteLine("Usage: RenameByRegex.exe <Regex filename> <directory> [/t] [/e] (<tag1> <replace1>)");
-                 Console.WriteLine("\t (optional): test mode - do not actually rename anything ");
-                 Console.WriteLine("\\e (optional): exhaustive mode - Keep replacing until no regexes match");
-                 Console.WriteLine("\\p (optional): pause at end- pause at the end of the run");
-                 Console.WriteLine("\\pf (optional): pause after file - pause before renaming each file");
-                 Console.WriteLine("File should contain a line seperated list of regexs, in three line pairs. Blank lines allowed between groups. First line should be a name for the regex, second line should be regex to extract into match groups, third line is how those groups are written out. Match groups referenced with a $ sign. Comment with a #, -- or // E.g:");
-                 Console.WriteLine("BLECH");
-                 Console.WriteLine("--This looks for something");
-                 Console.WriteLine("(.*'stuff')");
-                 Console.WriteLine("BLECH-$stuff");
+                write("Usage: RenameByRegex.exe <Regex filename> <directory> [/t] [/e] (<tag1> <replace1>)");
+                write("\\t (optional): test mode - do not actually rename anything ");
+                write("\\e (optional): exhaustive mode - Keep replacing until no regexes match");
+                write("\\p (optional): pause at end- pause at the end of the run");
+                write("\\pf (optional): pause after file - pause before renaming each file");
+                write("File should contain a line seperated list of regexs, in three line pairs. Blank lines allowed between groups. First line should be a name for the regex, second line should be regex to extract into match groups, third line is how those groups are written out. Match groups referenced with a $ sign. Comment with a #, -- or // E.g:");
+                write("BLECH");
+                write("--This looks for something");
+                write("(?<stuff>.*)");
+                write("BLECH-$stuff$");
                 
             }
 
@@ -54,37 +54,38 @@ namespace RenameByRegex
                 {
 
                     replacements.Add(new KeyValuePair<string, string>(args[i], args[i + 1]));
-                    Console.WriteLine("Added replacement - " + args[i] +  " replaced with - " + args[i + 1]);
+                    write("Added replacement - \"" + args[i] +  "\" replaced with \"" + args[i + 1] + "\"", 1, ConsoleColor.Yellow);
                     i++;
                 }
                 
             }
 
-            if (replacements.Count > 0 ) { Console.WriteLine("There are " + replacements.Count +  " replacements" ); }
+            if (replacements.Count > 0 ) { write("There are " + replacements.Count +  " replacements", 1, ConsoleColor.Green); }
 
             if (testmode)
             {
-                Console.WriteLine("Working in test mode - files won't acutally be renamed.");
+                write("Working in test mode - files won't acutally be renamed.", 1, ConsoleColor.Red);
             }
 
             if (exhaustive)
             {
-                Console.WriteLine("Exhaustive mode - regexes will keep being applied until none match.");
+                write("Exhaustive mode - regexes will keep being applied until none match.", 1, ConsoleColor.Green);
             }
 
             if (pauseFile)
             {
-                Console.WriteLine("Pausing after each file.");
+                write("Pausing after each file.", 1, ConsoleColor.Green);
             }
             if (pauseAtEnd)
             { 
-                Console.WriteLine("Pausing at end");
+                write("Pausing at end", 1, ConsoleColor.Green);
             }
     
             List<regexPair> regexes = new List<regexPair>();
             try
             {
-                Console.WriteLine("Loading Regex file " + filename);
+                write("Loading Regex file ", 0, ConsoleColor.Green, true);
+                write("Loading " + filename, 1, ConsoleColor.Green);
                 StreamReader sr = new StreamReader(filename);
                 string mode = "N"; //N = new regex, R = Regexmatch, O = output;
 
@@ -125,27 +126,28 @@ namespace RenameByRegex
                     }
                 }
                 sr.Close();
-                Console.WriteLine("Finished processing file");
+                write("Finished processing file", 1, ConsoleColor.Green);
 
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Directory Not Found");
+                write("Directory containing regex file Not Found", 0, ConsoleColor.Red);
+                return;
             }
             catch (FileNotFoundException )
             {
-                Console.WriteLine("File Not Found");
+                write("Regex file not found!", 0, ConsoleColor.Red);
+                return;
             }
             //todo more exceptions
 
 
             //Apply our replacements to each regex
-            Console.WriteLine("=====");
-            Console.WriteLine("Replacing regexes with replacement text");
-            Console.WriteLine("=====");
+            write("Replacing text in regexes", 0, ConsoleColor.Green, true);
 
-            foreach(regexPair rp in regexes)
+            foreach (regexPair rp in regexes)
             {
+                write(rp.name, 2, ConsoleColor.Gray);
                 foreach(KeyValuePair<string, string> r in replacements)
                 {
                     rp.applyReplacement(r);
@@ -157,9 +159,7 @@ namespace RenameByRegex
             //try open the directory
             DirectoryInfo di = new DirectoryInfo(dirname);
 
-            Console.WriteLine("=====");
-            Console.WriteLine("Processing Files");
-            Console.WriteLine("=====");
+            write("Processing Files", 0, ConsoleColor.Green, true);
 
             if (di.Exists)
             {
@@ -171,7 +171,7 @@ namespace RenameByRegex
                     int regexesApplied = 0;
 
                     string currentFileName = fi.Name;
-                    Console.WriteLine("Processing " + fi.Name);
+                    write("Processing file " + fi.Name, 2, ConsoleColor.Green);
 
                     /*go through until we get a hit, then stop processing. Retry from the top each time. Exit the loop if :
                             we only want to hit a single regex
@@ -190,7 +190,7 @@ namespace RenameByRegex
                                 Match m = reg.regex.Match(currentFileName);
                                 if (m.Success)
                                 {
-                                    Console.WriteLine("::::Regex Matched! (" + reg.name + ")" );
+                                    write("Regex Matched! " + reg.name, 4, ConsoleColor.Yellow );
                                     string newVal = "";
                                     currentFileName = reg.output;
                                     foreach (string s in reg.replacements)
@@ -205,8 +205,8 @@ namespace RenameByRegex
                                         //Console.WriteLine("::::::Replacing " + s + " with " + newVal);
 
                                     }
-                                    Console.WriteLine("::::Regex " + reg.name + " applied - name now ");
-                                    Console.WriteLine("::::" + currentFileName);
+                                    write("Regex " + reg.name + " applied - name now ", 5, ConsoleColor.DarkYellow);
+                                    write(currentFileName,5, ConsoleColor.DarkYellow);
                                     renamed = true;
                                     regexesApplied++;
                                 }
@@ -228,20 +228,22 @@ namespace RenameByRegex
                     //do we want to actually rename the file? 
                     if (fi.Name != currentFileName)
                     {
-                        Console.WriteLine("::Renaming " + fi.Name + " to ");
-                        Console.WriteLine("::" + currentFileName);
+                        write("Renaming from / to", 3, ConsoleColor.White);
+                        write(fi.Name, 4, ConsoleColor.Gray);
+                        write(currentFileName, 4, ConsoleColor.Gray);
+                        if (pauseFile)
+                        {
+                            if (pauseFile) { Console.ReadKey(); }
+                        }
                         if (!testmode)
                         {
                             fi.MoveTo(fi.DirectoryName + "\\" + currentFileName);
                         }
                         else
                         {
-                            Console.WriteLine("::Rename Skipped - test mode");
+                            write("Rename Skipped - test mode", 2, ConsoleColor.Gray);
                         }
-                        if (pauseFile)
-                        {
-                            if (pauseFile) { Console.ReadKey(); }
-                        }
+
 
 
                     }
@@ -251,12 +253,22 @@ namespace RenameByRegex
             }
             else
             {
-                 Console.WriteLine("Directory Not Found");
+                write("Directory Not Found",1, ConsoleColor.Red);
             }
 
-            Console.WriteLine("Finished. Press Return");
+            write("Finished. Press Return",1,ConsoleColor.Green);
             if (pauseAtEnd) { Console.ReadKey(); }
 
+        }
+
+
+        public static void write(string text, int level = 1, ConsoleColor colour = ConsoleColor.White, bool banner = false)
+        {
+            Console.ForegroundColor = colour;
+            text = new string(' ', level) + text;
+            if (banner) { Console.WriteLine(new string('=', text.Length)); }
+            Console.WriteLine(text);
+            if (banner) { Console.WriteLine(new string('=', text.Length)); }
         }
 
         private class regexPair
@@ -293,7 +305,7 @@ namespace RenameByRegex
                         noMatches = true;
                     }
                 }
-                Console.WriteLine(":::Added group " + name + " with output " + output + " containing " + replacements.Count.ToString() + " replacements");
+                write("Added group " + name + " with output " + output + " containing " + replacements.Count.ToString() + " replacements", 2, ConsoleColor.Green);
             }
 
             /// <summary>
@@ -305,7 +317,9 @@ namespace RenameByRegex
                 string newRegex = regexMatch.Replace(replacement.Key, replacement.Value);
                 if (newRegex != regexMatch)
                 {
-                    Console.WriteLine("Updated regex " + name + " regex from |||" + regexMatch + "||| to |||" + newRegex + "|||");
+                    write("Updated regex " + name + " regex from / to ", 4, ConsoleColor.Yellow);
+                    write(regexMatch, 5, ConsoleColor.Gray);
+                    write(newRegex , 5, ConsoleColor.Gray);
                     regexMatch = newRegex;
                     regex = new Regex(regexMatch);
                 }
@@ -313,12 +327,15 @@ namespace RenameByRegex
                 string newOutput = output.Replace(replacement.Key, replacement.Value);
                 if (newOutput != output)
                 {
-                    Console.WriteLine("Updated regex " + name + " output from |||" + output + "||| to |||" + newOutput + "|||");
+                    write("Updated regex " + name + " ouptut from / to ", 4, ConsoleColor.Yellow);
+                    write(output, 5, ConsoleColor.Gray);
+                    write(newOutput, 5, ConsoleColor.Gray);
                     output = newOutput;
                 }
 
             }
 
         }
+                    
     }
 }
