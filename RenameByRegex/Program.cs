@@ -269,6 +269,7 @@ namespace RenameByRegex
             if (banner) { Console.WriteLine(new string('=', text.Length)); }
             Console.WriteLine(text);
             if (banner) { Console.WriteLine(new string('=', text.Length)); }
+            if (colour == ConsoleColor.Red) { Console.ReadKey();  }
         }
 
         private class regexPair

@@ -2,3 +2,7 @@ C:\OwnCloud\Code\builds\RenameByRegex\RenameByRegex.exe
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.exe
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csprojAssemblyReference.cache
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csproj.CoreCompileInputs.cache
+C:\Users\davepike\source\OwnCloud\Code\builds\RenameByRegex\RenameByRegex.exe
+C:\Users\davepike\source\repos\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.csproj.CoreCompileInputs.cache
+C:\Users\davepike\source\repos\RenameByRegex\RenameByRegex\obj\x86\Release\RenameByRegex.exe
+D:\OwnCloud\Code\builds\RenameByRegex\RenameByRegex.exe

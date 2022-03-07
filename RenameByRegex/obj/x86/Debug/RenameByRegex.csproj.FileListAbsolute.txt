@@ -4,3 +4,8 @@ C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.csprojAssemblyRe
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.csproj.CoreCompileInputs.cache
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.exe
 C:\Code\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.pdb
+C:\Users\davepike\Source\Repos\RenameByRegex\RenameByRegex\bin\Debug\RenameByRegex.exe
+C:\Users\davepike\Source\Repos\RenameByRegex\RenameByRegex\bin\Debug\RenameByRegex.pdb
+C:\Users\davepike\Source\Repos\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.csproj.CoreCompileInputs.cache
+C:\Users\davepike\Source\Repos\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.exe
+C:\Users\davepike\Source\Repos\RenameByRegex\RenameByRegex\obj\x86\Debug\RenameByRegex.pdb
